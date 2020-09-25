@@ -18,8 +18,6 @@ The script uses the [Team Cymru](https://team-cymru.com/community-services/ip-as
 * Asuswrt-Merlin firmware
 * Entware must be installed on the router prior to installing. The entware packages **bash** and **whois** will be installed.
 
-## Screenshots
-
 ---
 
 ## Screenshots

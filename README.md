@@ -12,7 +12,15 @@ Screenshots for every lookup option are below.
 
 The script uses the [Team Cymru](https://team-cymru.com/community-services/ip-asn-mapping/) and the [Prefix WhoIs Project](https://pwhois.org/) services for data.
 
-Requires Bash v4+. Tested on Linux, FreeBSD, WSL (v2) and Cygwin.
+Entware must be installed prior to installing. The entware packages **bash** and **whois** will be installed.
+
+## Installation
+Copy and paste the command below into an SSH session:
+````
+sh -c "$(curl -sL https://raw.githubusercontent.com/Xentrk/asn/master/Install_asn.sh)"
+````
+
+## Screenshots
 
 ---
 

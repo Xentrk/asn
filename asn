@@ -32,7 +32,7 @@
 
 WhoisASN() {
   found_asname=$(whois -h whois.cymru.com " -f -w -c -p as$1" | sed 's/\ *|\ */|/g' | awk -F '[|]' '{print $3}')
-  [ "$found_asname" == "NO_NAME" ] && found_asname=""
+  [ "$found_asname" = "NO_NAME" ] && found_asname=""
 }
 
 WhoisIP() {
@@ -57,8 +57,8 @@ LookupASNAndRouteFromIP() {
   found_asn=$(echo "$output" | awk -F'[|]' 'NR==1{print $1}')
   found_asname=$(echo "$output" | awk -F'[|]' 'NR==1{print $4}')
   found_route=$(echo "$output" | awk -F'[|]' 'NR==1{print $3}')
-  [ "$found_asname" == "NA" ] && found_asname=""
-  [ "$found_route" == "NA" ] && found_route=""
+  [ "$found_asname" = "NA" ] && found_asname=""
+  [ "$found_route" = "NA" ] && found_route=""
 }
 
 ResolveHostnameToIPList() {
@@ -246,7 +246,7 @@ TraceASPath() {
           fi
         fi
       fi
-      [ "$DETAILED_TRACE" == "true" ] && PwhoisLookup "$hop_ip"
+      [ "$DETAILED_TRACE" = "true" ] && PwhoisLookup "$hop_ip"
     fi
 
     # DNS data (only used if a hostname was resolved)
@@ -283,14 +283,14 @@ TraceASPath() {
       # PWHOIS lookups ON, but no valid data. Just add a newline for readability
       trace_output+="\n"
     fi
-    [ "$last_hop" == true ] && break
+    [ "$last_hop" = true ] && break
     ((cur_hop_count++))
   done
   # mtr output (hostlines) parsing complete
   if [ "$last_hop" = false ]; then
     # last hop wasn't our target IP. Add a missing last hop to the trace.
     trace_output+=$(printf "\n%3s. %-90s %10s   %s" "$cur_hop_count" "${white}???${default}" "*" "${white}(No reply)${default}")
-    [ "$DETAILED_TRACE" == "true" ] && trace_output+="\n"
+    [ "$DETAILED_TRACE" = "true" ] && trace_output+="\n"
   fi
   StatusbarMessage ""
 
@@ -364,7 +364,7 @@ SearchByOrg() {
           searchresults+="\n"
         fi
       done
-      [ "$NO_RESULTS" == "true" ] && searchresults+="\n\t${red}No results found${default}\n"
+      [ "$NO_RESULTS" = "true" ] && searchresults+="\n\t${red}No results found${default}\n"
     done
     StatusbarMessage ""
     echo -e "$searchresults"
@@ -396,7 +396,7 @@ Select an organization (or CTRL-C to cancel): "
   set -o posix
   select choice in "${orgs[@]}"; do
     for org in "${orgs[@]}"; do
-      if [ "$org" == "$choice" ]; then
+      if [ "$org" = "$choice" ]; then
         break 2
       fi
     done
@@ -527,7 +527,7 @@ if [ -z "$input" ]; then
         PrintErrorAndExit "Error: unable to resolve hostname"
       fi
       numips=$(echo "$ip" | wc -l)
-      [ $numips == 1 ] && s="" || s="es"
+      [ $numips = 1 ] && s="" || s="es"
       echo -e "${blue}$numips IP address$s found:\n"
       # grab the longest IP to properly size output padding
       longest=0

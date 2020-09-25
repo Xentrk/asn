@@ -209,7 +209,7 @@ TraceASPath() {
     hop_ip=${hostline_array[$mtr_hopnum]}
     # AS DATA lookup
     # check if IP is in private addressing space
-    if [ $hop_ip =~ $privateregex ]; then
+    if [ $hop_ip != $privateregex ]; then
       asn_data="${white}(Private network)${default}"
       pwhois_output=""
     else

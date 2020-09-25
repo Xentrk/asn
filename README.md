@@ -18,17 +18,6 @@ The script uses the [Team Cymru](https://team-cymru.com/community-services/ip-as
 * Asuswrt-Merlin firmware
 * Entware must be installed on the router prior to installing. The entware packages **bash** and **whois** will be installed.
 
-## Installation
-Copy and paste the command below into an SSH session:
-````
-sh -c "$(curl -sL https://raw.githubusercontent.com/Xentrk/asn/master/Install_asn.sh)"
-````
-## Removal
-Copy and paste the command below into an SSH session:
-````
-rm /opt/bin/asn
-````
-
 ## Screenshots
 
 ---
@@ -72,12 +61,17 @@ rm /opt/bin/asn
 ---
 
 ## Installation
+Copy and paste the command below into an SSH session:
+````
+sh -c "$(curl -sL https://raw.githubusercontent.com/Xentrk/asn/master/Install_asn.sh)"
+````
+You can then run the script by typing **asn**.
 
-To download the **asn** script from your shell:
-
-`curl https://raw.githubusercontent.com/nitefood/asn/master/asn > asn && chmod +x asn`
-
-After that, you can use the script by running `./asn`.
+## Removal
+Copy and paste the command below into an SSH session:
+````
+rm /opt/bin/asn
+````
 
 ## Usage
 

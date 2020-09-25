@@ -47,7 +47,7 @@ Chk_Entware() {
           if [ -d /opt ] && [ -n "$(find /opt/ -name "$ENTWARE_UTILITY")" ]; then
             READY="0" # Specific Entware utility found
           else
-            opkg install "$ENTWARE_UTILITY"
+            opkg install "$ENTWARE_UTILITY" && READY="0" && break
           fi
         fi
       else

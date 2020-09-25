@@ -5,18 +5,17 @@
 # Author: Xentrk
 # Date: 25-September-2020
 #
-#####################################################################################################
 # Description:
 #   Install asn utility & required entware packages
 #   Entware packages
 #     bash, whois
-#####################################################################################################
+####################################################################################################
 GIT_REPO="asn"
 BRANCH="master"
 # Change branch to master after merge
 GITHUB_DIR="https://raw.githubusercontent.com/Xentrk/$GIT_REPO/$BRANCH"
 
-Chk_Entware() {
+Chk_Entware() { # Chk_Entware code source: Martineau
 
   # ARGS [wait attempts] [specific_entware_utility]
   READY="1"          # Assume Entware Utilities are NOT available

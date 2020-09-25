@@ -11,7 +11,6 @@
 #   Entware packages
 #     bash, whois
 #####################################################################################################
-set -x
 GIT_REPO="asn"
 BRANCH="master"
 # Change branch to master after merge

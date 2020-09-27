@@ -8,7 +8,7 @@
 # Description:
 #   Install asn utility & required entware packages
 #   Entware packages
-#     bash, whois
+#     bash, mtr, whois
 ####################################################################################################
 GIT_REPO="asn"
 BRANCH="master"
@@ -69,19 +69,14 @@ if [ "$READY" -eq 1 ]; then
   exit 1
 fi
 
-Chk_Entware bash 30
-if [ "$READY" -eq 1 ]; then
-  echo "Unable to install entware package 'bash'"
-  printf 'Exiting %s\n' "$(basename "$0")"
-  exit 1
-fi
-
-Chk_Entware whois 30
-if [ "$READY" -eq 1 ]; then
-  echo "Unable to install entware package 'whois'"
-  printf 'Exiting %s\n' "$(basename "$0")"
-  exit 1
-fi
+for ENTWARE_PACKAGE in bash hosts mtr whois; do
+  Chk_Entware $ENTWARE_PACKAGE 30
+  if [ "$READY" -eq 1 ]; then
+    echo "Unable to install entware package $ENTWARE_PACKAGE"
+    printf 'Exiting %s\n' "$(basename "$0")"
+    exit 1
+  fi
+done
 
 while true; do
   echo "Downloading, please wait patiently..."

@@ -1,5 +1,5 @@
 #!/opt/bin/bash
-
+#set -x
 ########################################################################################
 # -----------------------------------------------------------------------------------
 #          ASN / IPv4 / IPv6 / Prefix / AS Path / Organization lookup tool
@@ -156,7 +156,9 @@ TraceASPath() {
   saved_asname=$found_asname
   # last_resolved_ip will save us one dns resolution (mtr returns the same last hop twice)
   last_resolved_ip=""
-  privateregex='/(^127\.)|(^192\.168\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^::1$)|(^[fF][cCdD])/' # cheers https://stackoverflow.com/a/11327345/5377165
+  #privateregex='/(^127\.)|(^192\.168\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^::1$)|(^[fF][cCdD])/' # cheers https://stackoverflow.com/a/11327345/5377165
+  #bogon regex source code https://stackoverflow.com/questions/2814002/private-ip-address-identifier-in-regular-expression/11327345#11327345
+  privateregex="(127\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|0?1[02]\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|172\.0?1[6-9]\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|172\.0?2[0-9]\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|172\.0?3[0-7]\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|192\.168\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|::1|[fF][cCdD][[0-9a-fA-F]{2}(?:[:][0-9a-fA-F]{0,4}){0,7})(?:\/([789]|1?[0-9]{2}))?/"
   # start the mtr trace in a bash coprocess to parse its output asynchronously
   coproc mtr -l -n -c"$mtr_rounds" "$host_to_trace"
   declare -a hostline_array
@@ -205,11 +207,12 @@ TraceASPath() {
   trace_output=$(printf "${lightgreybg}${black}%4s %-72s%18s     %s     ${default}" "Hop" "IP Address" "Ping avg" "AS Information")
   cur_hop_count=1
   last_hop=false
+
   for mtr_hopnum in "${!hostline_array[@]}"; do
     hop_ip=${hostline_array[$mtr_hopnum]}
     # AS DATA lookup
     # check if IP is in private addressing space
-    if [ $hop_ip != $privateregex ]; then
+    if [ "$hop_ip" = "$(echo "$hop_ip" | grep -oE "$privateregex")" ]; then
       asn_data="${white}(Private network)${default}"
       pwhois_output=""
     else
@@ -310,7 +313,7 @@ TraceASPath() {
   for as in "${aspath_array[@]}"; do
     echo -en "${as}${default}"
     if [ "$as" != "${aspath_array[-1]}" ]; then
-      echo -en "\n ??\n ?"
+      echo -en "\n |\n  "
     fi
   done
   echo -e "\n"
@@ -434,6 +437,53 @@ StatusbarMessage() { # invoke without parameters to delete the status bar messag
   fi
 }
 
+Chk_Entware() { # Chk_Entware code source: Martineau
+
+  # ARGS [wait attempts] [specific_entware_utility]
+  READY="1"          # Assume Entware Utilities are NOT available
+  ENTWARE_UTILITY="" # Specific Entware utility to search for
+  MAX_TRIES="30"
+
+  if [ -n "$2" ] && [ "$2" -eq "$2" ] 2>/dev/null; then
+    MAX_TRIES="$2"
+  elif [ -z "$2" ] && [ "$1" -eq "$1" ] 2>/dev/null; then
+    MAX_TRIES="$1"
+  fi
+
+  if [ -n "$1" ] && ! [ "$1" -eq "$1" ] 2>/dev/null; then
+    ENTWARE_UTILITY="$1"
+  fi
+
+  # Wait up to (default) 30 seconds to see if Entware utilities available.....
+  TRIES="0"
+
+  while [ "$TRIES" -lt "$MAX_TRIES" ]; do
+    if [ -f "/opt/bin/opkg" ]; then
+      if [ -n "$ENTWARE_UTILITY" ]; then # Specific Entware utility installed?
+        if [ -n "$(opkg list-installed "$ENTWARE_UTILITY")" ]; then
+          READY="0" # Specific Entware utility found
+        else
+          # Not all Entware utilities exists as a stand-alone package e.g. 'find' is in package 'findutils'
+          if [ -d /opt ] && [ -n "$(find /opt/ -name "$ENTWARE_UTILITY")" ]; then
+            READY="0" # Specific Entware utility found
+          else
+            opkg install "$ENTWARE_UTILITY"
+            READY="0"
+            break
+          fi
+        fi
+      else
+        READY="0" # Entware utilities ready
+      fi
+      break
+    fi
+    sleep 1
+    logger -st "($(basename "$0"))" "$$ Entware $ENTWARE_UTILITY not available - wait time $((MAX_TRIES - TRIES - 1)) secs left"
+    TRIES=$((TRIES + 1))
+  done
+  return "$READY"
+}
+
 IFS=$'\n\t'
 green="\e[32m"
 magenta="\e[35m"
@@ -498,19 +548,22 @@ esac
 
 # Check prerequisites
 # TODO: consider switching to DNS lookups (ie dig instead of whois) to improve speed
-if [ $TRACEASNPATH = true ] && [ -z "$(command -v mtr)" ]; then
-  echo -e "\n${yellow}WARNING: ${white}program '${red}mtr${white}' not found on this system.\nPlease install it (for example with ${green}sudo apt install mtr-tiny${white}" \
-  "\non Debian-based linux distributions) to enable AS path tracing"
-  TRACEASNPATH=false
-fi
-if [ -z "$(command -v whois)" ]; then
-  echo -e "\n${red}ERROR: ${white}program '${red}whois${white}' not found on this system.\nPlease install it (for example with ${green}sudo apt install whois${white} on Debian-based linux distributions)\n"
+
+Chk_Entware 30
+if [ "$READY" -eq 1 ]; then
+  echo "You must first install Entware before proceeding"
+  printf 'Exiting %s\n' "$(basename "$0")"
   exit 1
 fi
-if [ -z "$(command -v host)" ]; then
-  echo -e "\n${red}ERROR: ${white}program '${red}host${white}' not found on this system.\nPlease install it (for example with ${green}sudo apt install bind9-host${white} on Debian-based linux distributions)\n"
-  exit 1
-fi
+
+for ENTWARE_PACKAGE in host mtr whois; do
+  Chk_Entware $ENTWARE_PACKAGE 30
+  if [ "$READY" -eq 1 ]; then
+    echo "Unable to install entware package $ENTWARE_PACKAGE"
+    printf 'Exiting %s\n' "$(basename "$0")"
+    exit 1
+  fi
+done
 
 BoxHeader "ASN lookup for $userinput"
 input=$(echo "$userinput" | sed 's/\/.*//g' | grep -Eo "$ipv4v6regex")
@@ -527,7 +580,7 @@ if [ -z "$input" ]; then
         PrintErrorAndExit "Error: unable to resolve hostname"
       fi
       numips=$(echo "$ip" | wc -l)
-      [ $numips = 1 ] && s="" || s="es"
+      [ "$numips" = 1 ] && s="" || s="es"
       echo -e "${blue}$numips IP address$s found:\n"
       # grab the longest IP to properly size output padding
       longest=0

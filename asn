@@ -342,6 +342,7 @@ SearchByOrg() {
     MULTIPLE_ORGS_FOUND=true
     ShowMenu
   fi
+  #set -x
   while true; do
     echo ""
     searchresults=""
@@ -353,7 +354,7 @@ SearchByOrg() {
       for orgid in $orgids; do
         StatusbarMessage "Looking up IPv${ipversion} networks for organization ${bluebg}$org${lightgreybg} (Org-ID: ${bluebg}${orgid}${lightgreybg})"
         if [ "$ipversion" = "4" ]; then
-          netblock=$(whois -h whois.pwhois.org "netblock org-id=${orgid}" | grep -E "^*>|Net-")
+          netblock=$(whois -h whois.pwhois.org "netblock org-id=${orgid}") # | grep -E "^>|Net-")
         else
           # apply some formatting for clarity to ipv6 results
           netblock=$(

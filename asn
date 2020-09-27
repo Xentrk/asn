@@ -311,11 +311,14 @@ TraceASPath() {
   BoxHeader "AS path to $userinput"
   echo -en "\n  "
   for as in "${aspath_array[@]}"; do
-    echo -en "${as}${default}"
+    echo -en "|-${as}${default}"
     if [ "$as" != "${aspath_array[-1]}" ]; then
-      echo -en "\n |\n  "
+      echo -en "\n  |\n  "
     fi
   done
+  found_asn=$saved_asn
+  #echo -en "\n |\n  "
+  #echo -en "${red}${saved_asn} ${green}${saved_asname}${white}"
   echo -e "\n"
 
 }

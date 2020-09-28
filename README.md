@@ -3,8 +3,8 @@
 ## Description
 
 ASN/IPv4/IPv6/Prefix/ASPath/Organization lookup tool
-Forked from https://github.com/nitefood/asn
-Modified for Asuswrt-Merlin firmware
+
+Forked from [nitefood/asn](https://github.com/nitefood/asn) and modified for [Asuswrt-Merlin firmware](https://github.com/RMerl/asuswrt-merlin.ng)
 
 The script will perform an AS path trace (using [mtr](https://github.com/traviscross/mtr) in raw mode and retrieving AS data from the results) for single IPs or DNS results, optionally reporting detailed data for each hop, such as organization/network name, geographic location, etc.
 
@@ -15,8 +15,9 @@ Screenshots for every lookup option are below.
 The script uses the [Team Cymru](https://team-cymru.com/community-services/ip-asn-mapping/) and the [Prefix WhoIs Project](https://pwhois.org/) services for data.
 
 ## Requirements
-* Asuswrt-Merlin firmware
-* Entware must be installed on the router prior to installing. The entware packages **bash**, **mtr** and **whois** will be installed.
+* [Asuswrt-Merlin firmware](https://github.com/RMerl/asuswrt-merlin.ng)
+* USB with entware installed. Entware can be installed using [amtm](https://diversion.ch/amtm.html)
+* The entware packages [bash](https://linux.die.net/man/1/bash), [host](https://linux.die.net/man/1/host), [mtr](https://linux.die.net/man/8/mtr) and [whois](https://linux.die.net/man/1/whois) will be installed.
 
 ---
 

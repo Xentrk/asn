@@ -74,11 +74,11 @@ rm /opt/bin/asn
 
 ## Usage
 
-* `asn <ASnumber>` -- _to lookup matching ASN data. Supports "as123" and "123" formats (case insensitive)_
-* `asn [-n|-d] <IPv4/IPv6>` -- _to lookup matching route(4/6) and ASN data_
-* `asn [-n|-d] <host.name.tld>` -- _to lookup matching IP(v4/v6), route and ASN data (supports multiple IPs - e.g. DNS RR)_
-* `asn <Route>` -- _to lookup matching ASN data for the given prefix_
-* `asn <Organization Name>` -- _to search by company name and lookup network ranges exported by (or related to) the company_
+* `asn <ASnumber>` -- _lookup matching ASN data. Supports "as123" and "123" formats (case insensitive)_
+* `asn [-n|-d] <IPv4/IPv6>` -- _lookup matching route(4/6) and ASN data_
+* `asn [-n|-d] <host.name.tld>` -- _lookup matching IP(v4/v6), route and ASN data (supports multiple IPs - e.g. DNS RR)_
+* `asn <Prefix>` -- _lookup matching ASN data for the given prefix in CIDR format e.g. 8.20.0.0/23_
+* `asn <Organization Name>` -- _search by company name and lookup network ranges exported by (or related to) the company_
 
 Detailed hop info reporting can be turned on by passing the `[-d|--detailed]` command line switch. This will enable querying the public [pWhois server](https://pwhois.org/server.who) for every hop in the mtr trace, and its output will be displayed as a "tree" below the hop data, in addition to Team Cymru's server output (which only reports the AS name that the organization originating the prefix gave to its autonomous system number). This can be useful to figure out more details regarding the organization's name, the prefix' intended designation, and even (to a certain extent) its geographical scope.
 

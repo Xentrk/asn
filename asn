@@ -1,24 +1,31 @@
 #!/opt/bin/bash
-########################################################################################
+####################################################################################################
+# Script: asn
+# VERSION=1.0.0
+# Date: 29-September-2020
+#
+# Chk_Entware function written by https://github.com/MartineauUK
+#
 # -----------------------------------------------------------------------------------
 #          ASN / IPv4 / IPv6 / Prefix / AS Path / Organization lookup tool
 #
-#               Project homepage: https://github.com/nitefood/asn
+#               Project homepage: https://github.com/Xentrk/asn
+#                Forked from: https://github.com/nitefood/asn
 # -----------------------------------------------------------------------------------
 #
 # Usage:
 #
-#  asn <ASnumber>              -- to lookup matching ASN data.
+#  asn <ASnumber>              -- lookup matching ASN data.
 #                                 Supports "as123" and "123" formats (case insensitive)
 #
-#  asn [-n|-d] <IPv4/IPv6>     -- to lookup matching route(4/6) and ASN data
+#  asn [-n|-d] <IPv4/IPv6>     -- lookup matching route(4/6) and ASN data
 #
-#  asn [-n|-d] <host.name.tld> -- to lookup matching IP(v4/v6), route and ASN data
+#  asn [-n|-d] <host.name.tld> -- lookup matching IP(v4/v6), route and ASN data
 #                                 (supports multiple IPs - e.g. DNS RR)
 #
-#  asn <Route>                 -- to lookup matching ASN data
+#  asn <Route>                 -- lookup matching ASN data
 #
-#  asn <Organization Name>     -- to search by company name and lookup network ranges
+#  asn <Organization Name>     -- search by company name and lookup network ranges
 #                                 exported by (or related to) the company
 # -----------------------------------------------------------------------------------
 #

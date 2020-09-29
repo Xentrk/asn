@@ -571,7 +571,8 @@ done
 BoxHeader "ASN lookup for $userinput"
 input=$(echo "$userinput" | sed -r 's/\.$//' | sed 's/\/.*//g' | grep -Eo "$ipv4v6regex")
 if [ -z "$input" ]; then
-  # Input is not an IP Addresed -r 's/\.$//' | sed 's/[a|A][s|S]//g' | grep -E "^[0-9]*$")
+  # Input is not an IP Address. Check if it is a number (ASN)
+  asn=$(echo "$userinput" | sed -r 's/\.$//' | sed 's/[a|A][s|S]//g' | grep -E "^[0-9]*$")
   if [ -z "$asn" ]; then
     # Input is not an ASN either. See if it's a hostname (includes at least one dot)
     if echo "$userinput" | sed -r 's/\.$//' | grep -q "\."; then

@@ -1,5 +1,4 @@
 #!/opt/bin/bash
-#set -x
 ########################################################################################
 # -----------------------------------------------------------------------------------
 #          ASN / IPv4 / IPv6 / Prefix / AS Path / Organization lookup tool
@@ -344,7 +343,7 @@ SearchByOrg() {
     MULTIPLE_ORGS_FOUND=true
     ShowMenu
   fi
-  #set -x
+
   while true; do
     echo ""
     searchresults=""
@@ -569,13 +568,13 @@ for ENTWARE_PACKAGE in host mtr whois; do
 done
 
 BoxHeader "ASN lookup for $userinput"
-input=$(echo "$userinput" | sed 's/\/.*//g' | grep -Eo "$ipv4v6regex")
+input=$(echo "$userinput" | tr -d '.' | sed 's/\/.*//g' | grep -Eo "$ipv4v6regex")
 if [ -z "$input" ]; then
   # Input is not an IP Address. Check if it is a number (ASN)
-  asn=$(echo "$userinput" | sed 's/[a|A][s|S]//g' | grep -E "^[0-9]*$")
+  asn=$(echo "$userinput" | tr -d '.' | sed 's/[a|A][s|S]//g' | grep -E "^[0-9]*$")
   if [ -z "$asn" ]; then
     # Input is not an ASN either. See if it's a hostname (includes at least one dot)
-    if echo "$userinput" | grep -q "\."; then
+    if echo "$userinput" | tr -d '.' | grep -q "\."; then
       echo -e -n "\n${blue}- Resolving \"$userinput\"... "
       ip=$(ResolveHostnameToIPList "$userinput")
       if [ -z "$ip" ]; then

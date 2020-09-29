@@ -17,7 +17,7 @@ The script uses the [Team Cymru](https://team-cymru.com/community-services/ip-as
 ## Requirements
 * [Asuswrt-Merlin firmware](https://github.com/RMerl/asuswrt-merlin.ng)
 * USB with entware installed. Entware can be installed using [amtm](https://diversion.ch/amtm.html)
-* The entware packages [bash](https://linux.die.net/man/1/bash), [host](https://linux.die.net/man/1/host), [mtr](https://linux.die.net/man/8/mtr) and [whois](https://linux.die.net/man/1/whois) will be installed.
+* The entware packages [bash](https://linux.die.net/man/1/bash), [bind-host](https://linux.die.net/man/1/host), [mtr](https://linux.die.net/man/8/mtr) and [whois](https://linux.die.net/man/1/whois) will be installed.
 
 ---
 

@@ -74,17 +74,16 @@ ResolveHostnameToIPList() {
 
 PrintUsage() {
   programname=$(basename "$0")
-  echo -e "\nASN Lookup Tool\
-        \n\n\nUsage:\n\t${white}$programname [-d|-n] <TARGET>${default}\n\nOptions:\n\
-        \n  ${white}-d, --detailed\n\t${default}Output detailed hop info (collected from pWhois) during the AS path trace to the TARGET
-        \n  ${white}-n, --notrace\n\t${default}Disable tracing the AS path to the TARGET\n\nSupported targets:\n\
-        \n  ${white}<AS Number>\n\t(to lookup matching ASN data. Supports \"as123\" and \"123\" formats - case insensitive)\
-        \n  ${white}<IPv4/IPv6>\n\t(to lookup matching route and ASN data)\
-        \n  ${white}<Prefix>\n\t(to lookup matching ASN data)\
-        \n  ${white}<host.name.tld>\n\t(to lookup matching IP, route and ASN data. Supports multiple IPs - e.g. DNS RR)\
-        \n\
-        \nNote: AS path tracing will be performed only for single IPs/DNS lookup results.
-        "
+  printf '\n%s' "ASN Lookup Tool"
+  printf '\n\n\n%s\n\t%b%s\n\n%b%s\n' "Usage:" "${white}" "$programname [-d|-n] <TARGET>" "${default}" "Options:"
+  printf '\n%b%s\n\t%b%s' "${white}" "-d, --detailed" "${default}" "Output detailed hop info (collected from pWhois) during the AS path trace to the TARGET"
+  printf '\n%b%s\n\t%b%s\n\n%s\n' "${white}" "-n, --notrace" "${default}" "Disable tracing the AS path to the TARGET" "Supported targets:"
+  printf '\n%b%s\n\t%s' "${white}" "<AS Number>" "(to lookup matching ASN data. Supports \"as123\" and \"123\" formats - case insensitive)"
+  printf '\n%b%s\n\t%s' "${white}" "<IPv4/IPv6>" "(to lookup matching route and ASN data)"
+  printf '\n%b%s\n\t%s' "${white}" "<Prefix>" "(to lookup matching ASN data)"
+  printf '\n%b%s\n\t%s\n' "${white}" "<host.name.tld>" "(to lookup matching IP, route and ASN data. Supports multiple IPs - e.g. DNS RR)"
+  printf '\n%s\n\n' "Note: AS path tracing will be performed only for single IPs/DNS lookup results."
+
 }
 
 PwhoisLookup() {

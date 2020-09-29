@@ -90,7 +90,7 @@ AS path tracing is enabled by default for all lookups. In case of multiple IP re
 
 ## Thanks
 
-This script was featured in the **Security Trails** blog post "[_ASN Lookup Tools, Strategies and Techniques_](https://securitytrails.com/blog/asn-lookup#autonomous-system-lookup-script)". Thank you [Esteban](https://www.estebanborges.com/)!
+The [original ASN Lookup Tool](https://github.com/nitefood/asn) was featured in the **Security Trails** blog post "[_ASN Lookup Tools, Strategies and Techniques_](https://securitytrails.com/blog/asn-lookup#autonomous-system-lookup-script)". Thank you [Esteban](https://www.estebanborges.com/)!
 
 ## Feedback and contributing
 

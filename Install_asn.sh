@@ -8,7 +8,7 @@
 # Description:
 #   Install asn utility & required entware packages
 #   Entware packages
-#     bash, mtr, whois
+#     bash, bind-host, mtr, whois
 ####################################################################################################
 GIT_REPO="asn"
 BRANCH="master"
@@ -69,7 +69,7 @@ if [ "$READY" -eq 1 ]; then
   exit 1
 fi
 
-for ENTWARE_PACKAGE in bash host mtr whois; do
+for ENTWARE_PACKAGE in bash bind-host mtr whois; do
   Chk_Entware $ENTWARE_PACKAGE 30
   if [ "$READY" -eq 1 ]; then
     echo "Unable to install entware package $ENTWARE_PACKAGE"

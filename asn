@@ -562,7 +562,7 @@ if [ "$READY" -eq 1 ]; then
   exit 1
 fi
 
-for ENTWARE_PACKAGE in host mtr whois; do
+for ENTWARE_PACKAGE in bind-host mtr whois; do
   Chk_Entware $ENTWARE_PACKAGE 30
   if [ "$READY" -eq 1 ]; then
     echo "Unable to install entware package $ENTWARE_PACKAGE"

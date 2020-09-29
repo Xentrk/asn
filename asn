@@ -396,7 +396,6 @@ SearchByOrg() {
       break
     fi
   done
-  #tput sgr0
   exit 0
 }
 
@@ -419,7 +418,6 @@ Select an organization (or CTRL-C to cancel): "
 
 PrintErrorAndExit() {
   echo -e "\n\e[30m\e[101m${1}\e[39m\e[49m\n"
-  #      #tput sgr0
   exit 1
 }
 
@@ -429,11 +427,9 @@ Ctrl_C() {
 
 BoxHeader() { # cheers https://unix.stackexchange.com/a/70616
   local s="$*"
-  #tput setaf 7
   echo -e "\n${white}--${s//?/-}--
 | ${yellow}${s}${white} |
 --${s//?/-}--"
-  #tput sgr 0
 }
 
 StatusbarMessage() { # invoke without parameters to delete the status bar message
@@ -611,7 +607,6 @@ if [ -z "$input" ]; then
         # in case of multiple IPs (DNS RR), trace the first one
         TraceASPath "$ip_to_trace"
       fi
-      #tput sgr0
       echo ""
       exit 0
     else
@@ -626,7 +621,6 @@ if [ -z "$input" ]; then
       PrintErrorAndExit "Error: no data found for AS${asn}"
     fi
     printf "\n${red}[AS%s] ${green}%s\n${white}\n" "$asn" "$found_asname"
-    #tput sgr0
     exit 0
   fi
 else
@@ -641,7 +635,6 @@ else
   if [ $TRACEASNPATH = true ]; then
     TraceASPath "$input"
   fi
-  #tput sgr0
   echo ""
   exit 0
 fi
